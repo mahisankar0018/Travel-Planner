@@ -1,187 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal Travel Bucket List Planner</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Travel Bucket List Planner</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
 
-<!-- Shared background -->
-<div class="bg"></div>
-<div class="bg-grid"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
+  <!-- Shared background -->
+  <div class="bg"></div>
+  <div class="bg-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      AUTH SCREEN
 ═══════════════════════════════════════════════════════ -->
-<div id="authScreen" class="screen">
-  <div class="auth-card">
-    <div class="brand">
-      <div class="brand-icon">🗺️</div>
-      <div class="brand-title">Travel Planner</div>
-      <div class="brand-sub">Personal Bucket List</div>
+  <div id="authScreen" class="screen">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand-icon">🗺️</div>
+        <div class="brand-title">Travel Planner</div>
+        <div class="brand-sub">Personal Bucket List</div>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab" onclick="switchAuthTab('register')">Create Account</button>
+      </div>
+
+      <div class="msg" id="authMsg"></div>
+
+      <!-- LOGIN -->
+      <div class="auth-form active" id="loginForm">
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <span class="field-ico">✉️</span>
+            <input type="email" id="lEmail" placeholder="you@example.com" autocomplete="email" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <span class="field-ico">🔑</span>
+            <input type="password" id="lPass" placeholder="Your password" autocomplete="current-password" />
+            <button class="eye-btn" onclick="toggleEye('lPass',this)" tabindex="-1">👁</button>
+          </div>
+        </div>
+        <button class="auth-btn" id="loginBtn" onclick="doLogin(event)">Sign In →</button>
+        <div class="divider">
+          <hr><span>or</span>
+          <hr>
+        </div>
+        <div style="text-align:center;font-size:.78rem;color:var(--muted);">No account? <span
+            style="color:var(--saffron);cursor:pointer;" onclick="switchAuthTab('register')">Create one →</span></div>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="auth-form" id="registerForm">
+        <div class="field">
+          <label>Full Name</label>
+          <div class="input-wrap">
+            <span class="field-ico">👤</span>
+            <input type="text" id="rName" placeholder="Your name" autocomplete="name" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <span class="field-ico">✉️</span>
+            <input type="email" id="rEmail" placeholder="you@example.com" autocomplete="email" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <span class="field-ico">🔑</span>
+            <input type="password" id="rPass" placeholder="Min 8 characters" autocomplete="new-password"
+              oninput="checkStrength(this.value)" />
+            <button class="eye-btn" onclick="toggleEye('rPass',this)" tabindex="-1">👁</button>
+          </div>
+          <div class="sbar">
+            <div class="sseg" id="s1"></div>
+            <div class="sseg" id="s2"></div>
+            <div class="sseg" id="s3"></div>
+            <div class="sseg" id="s4"></div>
+          </div>
+          <div class="slbl" id="slbl"></div>
+        </div>
+        <div class="field">
+          <label>Confirm Password</label>
+          <div class="input-wrap">
+            <span class="field-ico">🔒</span>
+            <input type="password" id="rPass2" placeholder="Repeat password" autocomplete="new-password" />
+            <button class="eye-btn" onclick="toggleEye('rPass2',this)" tabindex="-1">👁</button>
+          </div>
+        </div>
+        <button class="auth-btn" id="regBtn" onclick="doRegister(event)">Create Account →</button>
+        <div class="divider">
+          <hr><span>or</span>
+          <hr>
+        </div>
+        <div style="text-align:center;font-size:.78rem;color:var(--muted);">Have an account? <span
+            style="color:var(--saffron);cursor:pointer;" onclick="switchAuthTab('login')">Sign in →</span></div>
+      </div>
+
+      <div class="sec-note">🔐 SHA-256 hashed · Stored locally · No server</div>
     </div>
-
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
-      <button class="auth-tab" onclick="switchAuthTab('register')">Create Account</button>
-    </div>
-
-    <div class="msg" id="authMsg"></div>
-
-    <!-- LOGIN -->
-    <div class="auth-form active" id="loginForm">
-      <div class="field">
-        <label>Email</label>
-        <div class="input-wrap">
-          <span class="field-ico">✉️</span>
-          <input type="email" id="lEmail" placeholder="you@example.com" autocomplete="email"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <div class="input-wrap">
-          <span class="field-ico">🔑</span>
-          <input type="password" id="lPass" placeholder="Your password" autocomplete="current-password"/>
-          <button class="eye-btn" onclick="toggleEye('lPass',this)" tabindex="-1">👁</button>
-        </div>
-      </div>
-      <button class="auth-btn" id="loginBtn" onclick="doLogin(event)">Sign In →</button>
-      <div class="divider"><hr><span>or</span><hr></div>
-      <div style="text-align:center;font-size:.78rem;color:var(--muted);">No account? <span style="color:var(--saffron);cursor:pointer;" onclick="switchAuthTab('register')">Create one →</span></div>
-    </div>
-
-    <!-- REGISTER -->
-    <div class="auth-form" id="registerForm">
-      <div class="field">
-        <label>Full Name</label>
-        <div class="input-wrap">
-          <span class="field-ico">👤</span>
-          <input type="text" id="rName" placeholder="Your name" autocomplete="name"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Email</label>
-        <div class="input-wrap">
-          <span class="field-ico">✉️</span>
-          <input type="email" id="rEmail" placeholder="you@example.com" autocomplete="email"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <div class="input-wrap">
-          <span class="field-ico">🔑</span>
-          <input type="password" id="rPass" placeholder="Min 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)"/>
-          <button class="eye-btn" onclick="toggleEye('rPass',this)" tabindex="-1">👁</button>
-        </div>
-        <div class="sbar"><div class="sseg" id="s1"></div><div class="sseg" id="s2"></div><div class="sseg" id="s3"></div><div class="sseg" id="s4"></div></div>
-        <div class="slbl" id="slbl"></div>
-      </div>
-      <div class="field">
-        <label>Confirm Password</label>
-        <div class="input-wrap">
-          <span class="field-ico">🔒</span>
-          <input type="password" id="rPass2" placeholder="Repeat password" autocomplete="new-password"/>
-          <button class="eye-btn" onclick="toggleEye('rPass2',this)" tabindex="-1">👁</button>
-        </div>
-      </div>
-      <button class="auth-btn" id="regBtn" onclick="doRegister(event)">Create Account →</button>
-      <div class="divider"><hr><span>or</span><hr></div>
-      <div style="text-align:center;font-size:.78rem;color:var(--muted);">Have an account? <span style="color:var(--saffron);cursor:pointer;" onclick="switchAuthTab('login')">Sign in →</span></div>
-    </div>
-
-    <div class="sec-note">🔐 SHA-256 hashed · Stored locally · No server</div>
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      APP SCREEN
 ═══════════════════════════════════════════════════════ -->
-<div id="appScreen" class="screen">
+  <div id="appScreen" class="screen">
 
-  <!-- Top bar -->
-  <div class="topbar">
-    <div class="topbar-brand">
-      <div class="topbar-icon">🗺️</div>
-      <div class="topbar-name">Travel Planner</div>
-    </div>
-    <div class="topbar-right">
-      <div class="user-pill">
-        <div class="user-avatar" id="userAvatar">?</div>
-        <span id="userLabel">Traveller</span>
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-brand">
+        <div class="topbar-icon">🗺️</div>
+        <div class="topbar-name">Travel Planner</div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
-    </div>
-  </div>
-
-  <!-- Nav tabs -->
-  <div class="app-nav">
-    <button class="app-tab active" onclick="switchAppTab('bucket')">🗺️ Bucket List <span class="tab-badge" id="bucketBadge">0</span></button>
-    <button class="app-tab" onclick="switchAppTab('notes')">📝 My Notes <span class="tab-badge" id="notesBadge">0</span></button>
-  </div>
-
-  <!-- ── BUCKET LIST PAGE ── -->
-  <div class="app-page active" id="page-bucket">
-    <div class="loc-bar">
-      <span class="loc-pill" id="locPill" onclick="getLocation()">
-        <span class="loc-dot"></span>
-        <span id="locText">📍 Allow location for directions</span>
-      </span>
-    </div>
-
-    <div class="wrap">
-      <div class="row">
-        <input id="cityInput" type="text" placeholder="Type any city: Varanasi, Leh, Goa…" autocomplete="off" spellcheck="false"/>
-        <button id="addBtn">＋ Add</button>
-      </div>
-      <div id="dropdown">
-        <div class="dd-head">🏙️ Cities in India</div>
-        <div id="ddList"></div>
+      <div class="topbar-right">
+        <div class="user-pill">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <span id="userLabel">Traveller</span>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">Sign Out</button>
       </div>
     </div>
 
-    <div class="list-area">
-      <div class="sec-title">🗺️ My Bucket List <span id="cnt" style="font-size:.83rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;"></span></div>
-      <div id="cardArea">
-        <div class="empty"><div class="empty-icon">🇮🇳</div><p>Search for any Indian city above to begin!</p></div>
-      </div>
+    <!-- Nav tabs -->
+    <div class="app-nav">
+      <button class="app-tab active" onclick="switchAppTab('bucket')">🗺️ Bucket List <span class="tab-badge"
+          id="bucketBadge">0</span></button>
+      <button class="app-tab" onclick="switchAppTab('notes')">📝 My Notes <span class="tab-badge"
+          id="notesBadge">0</span></button>
     </div>
-  </div>
 
-  <!-- ── NOTES PAGE ── -->
-  <div class="app-page" id="page-notes">
-    <div class="notes-page">
-      <div class="notes-pg-title">📝 My Travel Notes</div>
-      <div class="notes-pg-sub">Write why you want to visit each city — your dreams, stories & must-dos.</div>
+    <!-- ── BUCKET LIST PAGE ── -->
+    <div class="app-page active" id="page-bucket">
+      <div class="loc-bar">
+        <span class="loc-pill" id="locPill" onclick="getLocation()">
+          <span class="loc-dot"></span>
+          <span id="locText">📍 Allow location for directions</span>
+        </span>
+      </div>
 
-      <div class="note-composer">
-        <div class="nc-title">✍️ Write a new note</div>
-        <select class="note-city-select" id="noteCitySelect">
-          <option value="">— Select a city from your bucket list —</option>
-        </select>
-        <textarea class="note-textarea" id="noteInput" placeholder="e.g. I've always dreamed of watching the Ganga Aarti at Dashashwamedh Ghat at dawn. My grandfather used to tell stories about Varanasi… 🙏" maxlength="1000"></textarea>
-        <div class="nc-footer">
-          <span class="char-count" id="charCount">0 / 1000</span>
-          <button class="note-save-btn" onclick="saveNote()">💾 Save Note</button>
+      <div class="wrap">
+        <div class="row">
+          <input id="cityInput" type="text" placeholder="Type any city: Varanasi, Leh, Goa…" autocomplete="off"
+            spellcheck="false" />
+          <button id="addBtn">＋ Add</button>
+        </div>
+        <div id="dropdown">
+          <div class="dd-head">🏙️ Cities in India</div>
+          <div id="ddList"></div>
         </div>
       </div>
 
-      <div id="notesList">
-        <div class="notes-empty"><div class="notes-empty-icon">💭</div><p>No notes yet. Add cities to your bucket list, then write your thoughts here!</p></div>
+      <div class="list-area">
+        <div class="sec-title">🗺️ My Bucket List <span id="cnt"
+            style="font-size:.83rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;"></span></div>
+        <div id="cardArea">
+          <div class="empty">
+            <div class="empty-icon">🇮🇳</div>
+            <p>Search for any Indian city above to begin!</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-</div><!-- end appScreen -->
+    <!-- ── NOTES PAGE ── -->
+    <div class="app-page" id="page-notes">
+      <div class="notes-page">
+        <div class="notes-pg-title">📝 My Travel Notes</div>
+        <div class="notes-pg-sub">Write why you want to visit each city — your dreams, stories & must-dos.</div>
 
-<div id="toast"></div>
+        <div class="note-composer">
+          <div class="nc-title">✍️ Write a new note</div>
+          <select class="note-city-select" id="noteCitySelect">
+            <option value="">— Select a city from your bucket list —</option>
+          </select>
+          <textarea class="note-textarea" id="noteInput"
+            placeholder="e.g. I've always dreamed of watching the Ganga Aarti at Dashashwamedh Ghat at dawn. My grandfather used to tell stories about Varanasi… 🙏"
+            maxlength="1000"></textarea>
+          <div class="nc-footer">
+            <span class="char-count" id="charCount">0 / 1000</span>
+            <button class="note-save-btn" onclick="saveNote()">💾 Save Note</button>
+          </div>
+        </div>
 
-<script src="../javascript/script.js"></script>
+        <div id="notesList">
+          <div class="notes-empty">
+            <div class="notes-empty-icon">💭</div>
+            <p>No notes yet. Add cities to your bucket list, then write your thoughts here!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end appScreen -->
+
+  <div id="toast"></div>
+
+  <script src="./javascript/script.js"></script>
 
 </body>
+
 </html>
